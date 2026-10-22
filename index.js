@@ -13,7 +13,7 @@ const MIN_JUMP_HEIGHT = 150;
 const GROUND_WIDTH = 2400;
 const GROUND_HEIGHT = 24;
 const GROUND_AND_CACTUS_SPEED = 0.5;
-const GAME_SPEED_START = 0.75;
+const GAME_SPEED_START = 1;
 const GAME_SPEED_INCREMENT = 0.00001;
 const CACTUS_CONFIG = [
   { width: 48 / 1.5, height: 100 / 1.5, image: "images/cactus_1.png" },
@@ -135,6 +135,7 @@ function gameLoop(currentTime) {
     ground.update(gameSpeed, frameTimeDelta);
     cactusController.update(gameSpeed, frameTimeDelta);
     player.update(gameSpeed, frameTimeDelta);
+    updateGameSpeed(frameTimeDelta);
   }
   if (!gameOver && cactusController.collideWith(player)) {
     gameOver = true;
@@ -156,6 +157,9 @@ function gameLoop(currentTime) {
     const x = canvas.width / 14;
     const y = canvas.height / 2;
     ctx.fillText("Tap Screen or Press Space To Start", x, y);
+  }
+  function updateGameSpeed() {
+    gameSpeed += frameTimeDelta * GAME_SPEED_INCREMENT;
   }
   requestAnimationFrame(gameLoop);
 }
