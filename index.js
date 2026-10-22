@@ -27,6 +27,8 @@ let player = null;
 let ground = null;
 let cactusController = null;
 let gameOver = false;
+let hasAddedEventListenerForRestart = false;
+let waitingToStart = true;
 function createSprites() {
   const playerWidthInGame = PLAYER_WIDTH * scaleRatio;
   const playerHeightInGame = PLAYER_HEIGHT * scaleRatio;
@@ -99,6 +101,23 @@ function showGameOver() {
   const y = canvas.height / 2;
   ctx.fillText("GAME OVER", x, y);
 }
+function setupGameReset() {
+  if (!hasAddedEventListenerForRestart) {
+    hasAddedEventListenerForRestart = true;
+    setTimeout(() => {
+      window.addEventListener("keyup", reset, { once: true });
+      window.addEventListener("touchstart", reset, { once: true });
+    }, 1000);
+  }
+}
+function reset() {
+  hasAddedEventListenerForRestart = false;
+  gameOver = false;
+  waitingToStart = false;
+  ground.reset();
+  cactusController.reset();
+  gameSpeed = GAME_SPEED_START;
+}
 function clearScreen() {
   ctx.fillStyle = "grey";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -112,13 +131,14 @@ function gameLoop(currentTime) {
   const frameTimeDelta = currentTime - previousTime;
   previousTime = currentTime;
   clearScreen();
-  if (!gameOver) {
+  if (!gameOver && !waitingToStart) {
     ground.update(gameSpeed, frameTimeDelta);
     cactusController.update(gameSpeed, frameTimeDelta);
     player.update(gameSpeed, frameTimeDelta);
   }
   if (!gameOver && cactusController.collideWith(player)) {
     gameOver = true;
+    setupGameReset();
   }
   ground.draw();
   cactusController.draw();
@@ -126,6 +146,19 @@ function gameLoop(currentTime) {
   if (gameOver) {
     showGameOver();
   }
+  if (waitingToStart) {
+    showStartGameText();
+  }
+  function showStartGameText() {
+    const fontSize = 40 * scaleRatio;
+    ctx.font = `${fontSize}px Verdana`;
+    ctx.fillStyle = "red";
+    const x = canvas.width / 14;
+    const y = canvas.height / 2;
+    ctx.fillText("Tap Screen or Press Space To Start", x, y);
+  }
   requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);
+window.addEventListener("keyup", reset, { once: true });
+window.addEventListener("touchstart", reset, { once: true });

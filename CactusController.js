@@ -53,4 +53,7 @@ export default class CactusController {
   collideWith(sprite) {
     return this.cactus.some((cactus) => cactus.collideWith(sprite));
   }
+  reset() {
+    this.cactus = [];
+  }
 }
