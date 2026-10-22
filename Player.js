@@ -53,6 +53,9 @@ export default class Player {
   };
   update(gameSpeed, frameTimeDelta) {
     this.run(gameSpeed, frameTimeDelta);
+    if (this.jumpInprogress) {
+      this.image = this.standingStillImage;
+    }
     this.jump(frameTimeDelta);
   }
   jump(frameTimeDelta) {
