@@ -2,7 +2,7 @@
 
 Now I'm sure many of you has played this, some still do, so this isn't a very special project it's just a beginner's attempt at making a very nostalgic game!
 
-<img width="464" height="422" alt="image" src="https://github.com/user-attachments/assets/d61781c8-ed5a-471e-8801-90e7fb3040b1" />
+<img width="451" height="409" alt="image" src="https://github.com/user-attachments/assets/ded8d88e-d99f-4283-99af-7ae641678547" />
 
 ## How to use?
 
