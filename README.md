@@ -2,6 +2,8 @@
 
 Now I'm sure many of you has played this, some still do, so this isn't a very special project it's just a beginner's attempt at making a very nostalgic game!
 
+<img width="464" height="422" alt="image" src="https://github.com/user-attachments/assets/d61781c8-ed5a-471e-8801-90e7fb3040b1" />
+
 ## How to use?
 
 The goal of the game is for the dinosaur to avoid the obstacles by jumping over them. 
