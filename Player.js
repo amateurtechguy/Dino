@@ -17,6 +17,7 @@ export default class Player {
     this.scaleRatio = scaleRatio;
     this.x = 10 * scaleRatio;
     this.y = this.canvas.height - this.height - 1.5 * scaleRatio;
+    this.yStandingPosition = this.y;
     this.standingStillImage = new Image();
     this.standingStillImage.src = "images/standing_still.png";
     this.image = this.standingStillImage;
@@ -52,6 +53,32 @@ export default class Player {
   };
   update(gameSpeed, frameTimeDelta) {
     this.run(gameSpeed, frameTimeDelta);
+    this.jump(frameTimeDelta);
+  }
+  jump(frameTimeDelta) {
+    if (this.jumpPressed) {
+      this.jumpInprogress = true;
+    }
+    if (this.jumpInprogress && !this.falling) {
+      if (
+        this.y > this.canvas.height - this.minJumpHeight ||
+        this.y > this.canvas.height - this.maxJumpHeight
+      ) {
+        this.y -= this.JUMP_SPEED * frameTimeDelta * this.scaleRatio;
+      } else {
+        this.falling = true;
+      }
+    } else {
+      if (this.y < this.yStandingPosition) {
+        this.y += this.GRAVITY * frameTimeDelta * this.scaleRatio;
+        if (this.y + this.height > this.canvas.height) {
+          this.y = this.yStandingPosition;
+        }
+      } else {
+        this.falling = false;
+        this.jumpInprogress = false;
+      }
+    }
   }
   run(gameSpeed, frameTimeDelta) {
     if (this.WalkAnimationTimer <= 0) {
