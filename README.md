@@ -23,7 +23,7 @@ A high jump requires taping the screen longer or pressing the space bar longer.
  - Javascript
 
 ## Credits:
-- [tutorial + assets]
+- [tutorial + assets](https://www.youtube.com/watch?v=ooru4pyEv1I)
 - [favicon](https://www.pinterest.com/pin/888686938961755152/)
 
 ---
