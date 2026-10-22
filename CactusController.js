@@ -50,4 +50,7 @@ export default class CactusController {
   draw() {
     this.cactus.forEach((cactus) => cactus.draw());
   }
+  collideWith(sprite) {
+    return this.cactus.some((cactus) => cactus.collideWith(sprite));
+  }
 }

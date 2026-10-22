@@ -26,6 +26,7 @@ let gameSpeed = GAME_SPEED_START;
 let player = null;
 let ground = null;
 let cactusController = null;
+let gameOver = false;
 function createSprites() {
   const playerWidthInGame = PLAYER_WIDTH * scaleRatio;
   const playerHeightInGame = PLAYER_HEIGHT * scaleRatio;
@@ -103,9 +104,14 @@ function gameLoop(currentTime) {
   const frameTimeDelta = currentTime - previousTime;
   previousTime = currentTime;
   clearScreen();
-  ground.update(gameSpeed, frameTimeDelta);
-  cactusController.update(gameSpeed, frameTimeDelta);
-  player.update(gameSpeed, frameTimeDelta);
+  if (!gameOver) {
+    ground.update(gameSpeed, frameTimeDelta);
+    cactusController.update(gameSpeed, frameTimeDelta);
+    player.update(gameSpeed, frameTimeDelta);
+  }
+  if (!gameOver && cactusController.collideWith(player)) {
+    gameOver = true;
+  }
   ground.draw();
   cactusController.draw();
   player.draw();
