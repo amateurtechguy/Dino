@@ -1,6 +1,7 @@
 import Player from "./Player.js";
 import Ground from "./ground.js";
 import CactusController from "./CactusController.js";
+import Score from "./Score.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -29,6 +30,7 @@ let cactusController = null;
 let gameOver = false;
 let hasAddedEventListenerForRestart = false;
 let waitingToStart = true;
+let score = null;
 function createSprites() {
   const playerWidthInGame = PLAYER_WIDTH * scaleRatio;
   const playerHeightInGame = PLAYER_HEIGHT * scaleRatio;
@@ -66,6 +68,7 @@ function createSprites() {
     scaleRatio,
     GROUND_AND_CACTUS_SPEED,
   );
+  score = new Score(ctx, scaleRatio);
 }
 function setScreen() {
   scaleRatio = getScaleRatio();
@@ -116,6 +119,7 @@ function reset() {
   waitingToStart = false;
   ground.reset();
   cactusController.reset();
+  score.reset();
   gameSpeed = GAME_SPEED_START;
 }
 function clearScreen() {
@@ -135,15 +139,18 @@ function gameLoop(currentTime) {
     ground.update(gameSpeed, frameTimeDelta);
     cactusController.update(gameSpeed, frameTimeDelta);
     player.update(gameSpeed, frameTimeDelta);
+    score.update(frameTimeDelta);
     updateGameSpeed(frameTimeDelta);
   }
   if (!gameOver && cactusController.collideWith(player)) {
     gameOver = true;
     setupGameReset();
+    score.setHighScore();
   }
   ground.draw();
   cactusController.draw();
   player.draw();
+  score.draw();
   if (gameOver) {
     showGameOver();
   }
