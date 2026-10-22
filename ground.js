@@ -12,7 +12,7 @@ export default class Ground {
     this.groundImage.src = "images/ground.png";
   }
   update(gameSpeed, frameTimeDelta) {
-    this.x -= 10;
+    this.x -= gameSpeed * frameTimeDelta * this.speed * this.scaleRatio;
   }
   draw() {
     this.ctx.drawImage(

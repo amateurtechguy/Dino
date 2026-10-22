@@ -79,9 +79,9 @@ function gameLoop(currentTime) {
   }
   const frameTimeDelta = currentTime - previousTime;
   previousTime = currentTime;
-  console.log(frameTimeDelta);
   clearScreen();
   ground.update(gameSpeed, frameTimeDelta);
+  player.update(gameSpeed, frameTimeDelta);
   ground.draw();
   player.draw();
   requestAnimationFrame(gameLoop);
