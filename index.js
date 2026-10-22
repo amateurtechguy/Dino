@@ -1,4 +1,5 @@
 import Player from "./Player.js";
+import Ground from "./ground.js";
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const GAME_WIDTH = 800;
@@ -7,20 +8,36 @@ const PLAYER_WIDTH = 88 / 1.5;
 const PLAYER_HEIGHT = 94 / 1.5;
 const MAX_JUMP_HEIGHT = GAME_HEIGHT;
 const MIN_JUMP_HEIGHT = 150;
+const GROUND_WIDTH = 2400;
+const GROUND_HEIGHT = 24;
+const GROUND_AND_CACTUS_SPEED = 0.5;
+const GAME_SPEED_START = 0.75;
+const GAME_SPEED_INCREMENT = 0.00001;
 let scaleRatio = null;
 let previousTime = null;
+let gameSpeed = GAME_SPEED_START;
 let player = null;
+let ground = null;
 function createSprites() {
   const playerWidthInGame = PLAYER_WIDTH * scaleRatio;
   const playerHeightInGame = PLAYER_HEIGHT * scaleRatio;
   const minJumpHeightInGame = MIN_JUMP_HEIGHT * scaleRatio;
   const maxJumpHeightInGame = MAX_JUMP_HEIGHT * scaleRatio;
+  const groundWidthInGame = GROUND_WIDTH * scaleRatio;
+  const groundHeightInGame = GROUND_HEIGHT * scaleRatio;
   player = new Player(
     ctx,
     playerWidthInGame,
     playerHeightInGame,
     minJumpHeightInGame,
     maxJumpHeightInGame,
+    scaleRatio,
+  );
+  ground = new Ground(
+    ctx,
+    groundWidthInGame,
+    groundHeightInGame,
+    GROUND_AND_CACTUS_SPEED,
     scaleRatio,
   );
 }
@@ -64,6 +81,8 @@ function gameLoop(currentTime) {
   previousTime = currentTime;
   console.log(frameTimeDelta);
   clearScreen();
+  ground.update(gameSpeed, frameTimeDelta);
+  ground.draw();
   player.draw();
   requestAnimationFrame(gameLoop);
 }
