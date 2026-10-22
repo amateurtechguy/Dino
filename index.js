@@ -1,3 +1,4 @@
+import Player from "./Player.js";
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const GAME_WIDTH = 800;
@@ -8,10 +9,26 @@ const MAX_JUMP_HEIGHT = GAME_HEIGHT;
 const MIN_JUMP_HEIGHT = 150;
 let scaleRatio = null;
 let previousTime = null;
+let player = null;
+function createSprites() {
+  const playerWidthInGame = PLAYER_WIDTH * scaleRatio;
+  const playerHeightInGame = PLAYER_HEIGHT * scaleRatio;
+  const minJumpHeightInGame = MIN_JUMP_HEIGHT * scaleRatio;
+  const maxJumpHeightInGame = MAX_JUMP_HEIGHT * scaleRatio;
+  player = new Player(
+    ctx,
+    playerWidthInGame,
+    playerHeightInGame,
+    minJumpHeightInGame,
+    maxJumpHeightInGame,
+    scaleRatio,
+  );
+}
 function setScreen() {
   scaleRatio = getScaleRatio();
   canvas.width = GAME_WIDTH * scaleRatio;
   canvas.height = GAME_HEIGHT * scaleRatio;
+  createSprites();
 }
 setScreen();
 window.addEventListener("resize", () => setTimeout(setScreen, 500));
@@ -24,7 +41,7 @@ function getScaleRatio() {
     document.documentElement.clientHeight,
   );
   const screenWidth = Math.min(
-    window.innerHeight,
+    window.innerWidth,
     document.documentElement.clientWidth,
   );
   if (screenWidth / screenHeight < GAME_WIDTH / GAME_HEIGHT) {
@@ -34,10 +51,10 @@ function getScaleRatio() {
   }
 }
 function clearScreen() {
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "grey";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-function gameLoop() {
+function gameLoop(currentTime) {
   if (previousTime === null) {
     previousTime = currentTime;
     requestAnimationFrame(gameLoop);
@@ -47,6 +64,7 @@ function gameLoop() {
   previousTime = currentTime;
   console.log(frameTimeDelta);
   clearScreen();
+  player.draw();
   requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);

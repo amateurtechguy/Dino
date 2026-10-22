@@ -1,3 +1,12 @@
+@keyframes bg {
+  0%,
+  100% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
 * {
   padding: 0;
   margin: 0;
@@ -6,6 +15,9 @@ canvas {
   border: 0.1px solid grey;
 }
 body {
+  background: linear-gradient(45deg, #120f0f, #353435, #1a1919, #2c2c2e);
+  background-size: 500%;
+  animation: bg 12s infinite ease;
   display: flex;
   align-items: center;
   justify-content: center;
